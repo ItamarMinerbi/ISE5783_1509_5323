@@ -1,8 +1,8 @@
 package primitives;
 
 public class Ray {
-    Point p0;
-    Vector dir;
+    final Point p0;
+    final Vector dir;
 
     public Ray(Point p0, Vector dir)
     {
@@ -10,14 +10,30 @@ public class Ray {
         this.dir = dir.normalize();
     }
 
+    public Point getP0()
+    {
+        return p0;
+    }
+
+    public Vector getDir()
+    {
+        return dir;
+    }
+
     @Override
     public boolean equals(Object obj)
     {
-        if(obj instanceof Ray)
-        {
-            Ray other = (Ray)obj;
-            return (p0.equals(other.p0) && dir.equals(other.dir));
-        }
-        return false;
+        if(this == obj) return true;
+        if(getClass() != obj.getClass()) return false;
+
+        Ray otherRay = (Ray) obj;
+        return otherRay.p0.equals(this.p0) &&
+               otherRay.dir.equals(this.dir);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "[" + p0 + ", " + dir + "]";
     }
 }
