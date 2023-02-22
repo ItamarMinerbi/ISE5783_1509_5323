@@ -17,9 +17,6 @@ public class Plane implements Geometry
     public Plane(Point p, Vector normal)
     {
         this.p0 = p;
-        if (normal == null)
-            throw new IllegalArgumentException("Vector cannot be null");
-
         this.normal = normal.normalize();
     }
 
