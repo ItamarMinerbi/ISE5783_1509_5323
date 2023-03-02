@@ -24,6 +24,15 @@ class PointTest {
 
     @Test
     void subtract() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: subtract 2 regular points
+        Point p1 = new Point(4,5,6);
+        Point p2 = new Point(1,2,3);
+
+        assertEquals(new Vector(3,3,3),p1.subtract(p2), "point subtract does not work.");
+        // TC02: subtract the point from itself
+        assertThrows(IllegalArgumentException.class,() -> p1.subtract(p1), "Should throw an exception because it creates vector 0");
+
     }
 
     @Test
