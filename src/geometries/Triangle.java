@@ -1,7 +1,6 @@
 /**
-
- The Triangle class represents a three-sided polygon in three-dimensional space.
- It extends the Polygon class and is defined by three Point objects.
+ * The Triangle class represents a three-sided polygon in three-dimensional space.
+ * It extends the Polygon class and is defined by three Point objects.
  */
 package geometries;
 
@@ -16,8 +15,7 @@ public class Triangle extends Polygon {
      * @param p2 The second vertex of the triangle.
      * @param p3 The third vertex of the triangle.
      */
-    public Triangle(Point p1, Point p2, Point p3)
-    {
+    public Triangle(Point p1, Point p2, Point p3) {
         super(p1, p2, p3);
     }
 }
