@@ -15,7 +15,7 @@ class SphereTests {
      * Test method for {@link geometries.Sphere#getNormal(Point)}.
      */
     @Test
-    void getNormal() {
+    void testgetNormal() {
         Sphere sphere = new Sphere(10,
                 new Point(0, 0, 0));
         // ============ Equivalence Partitions Tests ==============

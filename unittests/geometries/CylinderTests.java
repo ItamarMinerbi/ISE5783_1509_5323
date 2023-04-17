@@ -16,7 +16,7 @@ class CylinderTests {
      * Test method for {@link geometries.Cylinder#getNormal(Point)}.
      */
     @Test
-    void getNormal() {
+    void testgetNormal() {
         Cylinder cylinder = new Cylinder(1,
                 new Ray(new Point(0, 0, 1), new Vector(0, 0, 1)),
                 1);
@@ -50,4 +50,5 @@ class CylinderTests {
                 cylinder.getNormal(new Point(0, 0, 2)),
                 "ERROR: The normal vector to the the top base is wrong");
     }
+
 }
