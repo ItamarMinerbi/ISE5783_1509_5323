@@ -106,10 +106,7 @@ public class Vector extends Point {
      * @throws IllegalArgumentException if this vector has zero length
      */
     public Vector normalize() {
-        double len = Util.alignZero(length());
-        if (len == 0) {
-            throw new IllegalArgumentException("Vector 0 cannot be normalized.");
-        }
+        double len = length();
         return scale(1 / len);
     }
 

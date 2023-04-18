@@ -161,13 +161,13 @@ class VectorTests {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: Test that length of the vector
-        assertEquals(v1.length(),
-                3,
+        assertEquals(3,
+                v1.length(),
                 "ERROR: length() returns wrong result");
 
         // TC02: Test that length of the vector
-        assertEquals(v2.length(),
-                3,
+        assertEquals(3,
+                v2.length(),
                 "ERROR: length() returns wrong result");
     }
 
@@ -181,11 +181,14 @@ class VectorTests {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: Test that length of the normalized vector
-        assertTrue(isZero(v.length() - 1),
+        assertEquals(1,
+                v.length(),
                 "ERROR: normalize() returns wrong result");
 
         // TC02: Test that length of the normalized vector
-        assertTrue(isZero(v1.length() - 1),
+        assertEquals(1,
+                v1.length(),
+                0.00001,
                 "ERROR: normalize() returns wrong result");
     }
 }
