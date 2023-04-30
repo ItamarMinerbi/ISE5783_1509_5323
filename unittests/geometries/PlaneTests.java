@@ -64,7 +64,7 @@ class PlaneTests {
         List<Point> expRes = List.of(new Point(0, 1, 0));
         List<Point> res = plane.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray intersects the plane EP doesn't work.");
+        assertEquals(1, res.size(), "Ray intersects the plane EP doesn't work.");
 
         assertEquals(res, expRes, "Ray intersects the plane EP doesn't work.");
 
@@ -101,7 +101,7 @@ class PlaneTests {
         expRes = List.of(new Point(0, 1, 0));
         res = plane.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray is orthogonal to the plane and before the plane BVA doesn't work.");
+        assertEquals(1, res.size(), "Ray is orthogonal to the plane and before the plane BVA doesn't work.");
 
         assertEquals(res, expRes, "Ray is orthogonal to the plane and before the plane BVA doesn't work.");
 

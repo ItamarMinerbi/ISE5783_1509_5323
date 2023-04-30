@@ -8,6 +8,9 @@ public class Ray {
     final Point p0;
     final Vector dir;
 
+    public Point getPoint(double t){
+        return p0.add(dir.scale(t));}
+
     /**
      * Constructs a new Ray object with the specified starting point and direction vector.
      *

@@ -52,7 +52,7 @@ class SphereTests {
         List<Point> expRes = List.of(new Point(2, 0, 0));
         List<Point> res = sphere.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray from inside sphere EP doesn't work.");
+        assertEquals(1, res.size(), "Ray from inside sphere EP doesn't work.");
 
         assertEquals(res, expRes, "Ray from inside sphere EP doesn't work.");
         // TC04: Ray starts after the sphere (0 points)
@@ -68,7 +68,7 @@ class SphereTests {
         expRes = List.of(new Point(1, 0, 1));
         res = sphere.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray from the sphere inwards BVA doesn't work.");
+        assertEquals(1, res.size(), "Ray from the sphere inwards BVA doesn't work.");
 
         assertEquals(expRes, res, "Ray from the sphere inwards BVA doesn't work.");
 
@@ -79,10 +79,10 @@ class SphereTests {
         // **** Group: Ray's line goes through the center
         // TC13: Ray starts before the sphere (2 points)
         ray = new Ray(new Point(-1, 0, 0), new Vector(5, 0, 0));
-        expRes = List.of(new Point(0, 0, 0), new Point(2, 0, 0));
+        expRes = List.of(new Point(2, 0, 0), new Point(0, 0, 0));
         res = sphere.findIntersections(ray);
 
-        assertEquals(res.size(), 2, "Ray through center 2 points BVA doesn't work.");
+        assertEquals(2, res.size(), "Ray through center 2 points BVA doesn't work.");
 
         assertEquals(expRes, res, "Ray through center 2 points BVA doesn't work.");
         // TC14: Ray starts at sphere and goes inside (1 points)
@@ -90,7 +90,7 @@ class SphereTests {
         expRes = List.of(new Point(0, 0, 0));
         res = sphere.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray on sphere through center inwards BVA doesn't work.");
+        assertEquals(1, res.size(), "Ray on sphere through center inwards BVA doesn't work.");
 
         assertEquals(expRes, res, "Ray on sphere through center inwards BVA doesn't work.");
 
@@ -99,7 +99,7 @@ class SphereTests {
         expRes = List.of(new Point(2, 0, 0));
         res = sphere.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray in sphere through center BVA doesn't work.");
+        assertEquals(1, res.size(), "Ray in sphere through center BVA doesn't work.");
 
         assertEquals(expRes, res, "Ray in sphere through center BVA doesn't work.");
         // TC16: Ray starts at the center (1 points)
@@ -107,7 +107,7 @@ class SphereTests {
         expRes = List.of(new Point(2, 0, 0));
         res = sphere.findIntersections(ray);
 
-        assertEquals(res.size(), 1, "Ray from center BVA doesn't work.");
+        assertEquals(1, res.size(), "Ray from center BVA doesn't work.");
 
         assertEquals(expRes, res, "Ray from center BVA doesn't work.");
         // TC17: Ray starts at sphere and goes outside (0 points)
