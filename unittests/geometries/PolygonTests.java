@@ -1,17 +1,13 @@
 package geometries;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
 import org.junit.jupiter.api.Test;
 
 import geometries.Polygon;
-import primitives.Point;
-import primitives.Vector;
+import java.util.List;
+import primitives.*;
 
 /**
  * Testing Polygons
@@ -91,4 +87,40 @@ public class PolygonTests {
             assertTrue(isZero(result.dotProduct(pts[i].subtract(pts[i == 0 ? 3 : i - 1]))),
                     "Polygon's normal is not orthogonal to one of the edges");
     }
+
+    @Test
+    public void testFindIntersections(){
+        Polygon polygon = new Polygon(new Point(-0.5, -0.5, 0), new Point(0, 1, 0), new Point(1, 0, 0));
+
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray intersects inside polygon.
+        Ray ray = new Ray(new Point(0.25, 0.25, 1), new Vector(0.25, 0, -1));
+        List<Point> expRes = List.of(new Point(0.5, 0.25, 0));
+        List<Point> res = polygon.findIntersections(ray);
+        assertEquals(res.size(), 1, "Ray intersects inside polygon EP doesn't work.");
+        assertEquals(expRes, res, "Ray intersects inside polygon EP doesn't work.");
+
+        // TC02: Ray outside polygon against vertex.
+        ray = new Ray(new Point(0.25, 0.25, 1), new Vector(1.5, -0.5, -1));
+        assertNull(polygon.findIntersections(ray), "Ray outside polygon against vertex EP doesn't work.");
+
+        // TC03: Ray outside polygon against edge.
+        ray = new Ray(new Point(0.25, 0.25, 1), new Vector(0.75, 0.75, -1));
+        assertNull(polygon.findIntersections(ray), "Ray outside polygon against edge EP doesn't work.");
+
+        // =============== Boundary Values Tests ==================
+        // TC11: Ray intersects on vertex of polygon.
+        ray = new Ray(new Point(0.25, 0.25, 1), new Vector(-0.25, 0.75, -1));
+        assertNull(polygon.findIntersections(ray), "Ray intersects on vertex of polygon BVA doesn't work.");
+
+        // TC12: Ray intersects on edge of polygon.
+        ray = new Ray(new Point(0.25, 0.25, 1), new Vector(0.25, 0.25, -1));
+        assertNull(polygon.findIntersections(ray), "Ray intersects on edge of polygon BVA doesn't work.");
+
+        // TC13: Ray intersects on edge's continuation of polygon.
+        ray = new Ray(new Point(0.25, 0.25, 1), new Vector(-1.25, -2.25, -1));
+        assertNull(polygon.findIntersections(ray),
+                "Ray intersects on edge's continuation of polygon BVA doesn't work.");
+    }
+
 }

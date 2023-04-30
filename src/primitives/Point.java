@@ -7,6 +7,13 @@ package primitives;
 public class Point {
     final Double3 xyz;
 
+    public double getX(){return xyz.d1;}
+
+    public double getY(){return xyz.d2;}
+
+    public double getZ(){return xyz.d3;}
+
+
     /**
      * Constructs a new Point object with the specified x, y, and z coordinates.
      *
