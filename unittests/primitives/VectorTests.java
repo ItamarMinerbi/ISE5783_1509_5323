@@ -2,7 +2,6 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
-import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
@@ -15,7 +14,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#add(Vector)}.
      */
     @Test
-    void testadd() {
+    void testAdd() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v = new Vector(1, 1, 1);
         // ============ Equivalence Partitions Tests ==============
@@ -48,7 +47,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#scale(double)}.
      */
     @Test
-    void testscale() {
+    void testScale() {
         Vector v1 = new Vector(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
 
@@ -70,7 +69,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#dotProduct(Vector)}.
      */
     @Test
-    void testdotProduct() {
+    void testDotProduct() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-2, -4, -6);
         Vector v3 = new Vector(0, 3, -2);
@@ -101,7 +100,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#crossProduct(Vector)}.
      */
     @Test
-    void testcrossProduct() {
+    void testCrossProduct() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(0, 3, -2);
         Vector v3 = new Vector(-2, -4, -6);
@@ -133,7 +132,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#lengthSquared()}.
      */
     @Test
-    void testlengthSquared() {
+    void testLengthSquared() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(-2, -2, -1);
         // ============ Equivalence Partitions Tests ==============
@@ -155,7 +154,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#length()}.
      */
     @Test
-    void testlength() {
+    void testLength() {
         Vector v1 = new Vector(2, 2, 1);
         Vector v2 = new Vector(-2, -2, -1);
         // ============ Equivalence Partitions Tests ==============
@@ -175,7 +174,7 @@ class VectorTests {
      * Test method for {@link primitives.Vector#normalize()}.
      */
     @Test
-    void testnormalize() {
+    void testNormalize() {
         Vector v = new Vector(1, 2, 3).normalize();
         Vector v1 = new Vector(-1, -2, -3).normalize();
         // ============ Equivalence Partitions Tests ==============

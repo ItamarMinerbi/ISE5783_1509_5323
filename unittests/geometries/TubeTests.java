@@ -2,7 +2,6 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
-import java.util.List;
 import primitives.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +15,7 @@ class TubeTests {
      * Test method for {@link geometries.Tube#getNormal(Point)}.
      */
     @Test
-    void testgetNormal() {
+    void testGetNormal() {
         Tube tube = new Tube(1,
                 new Ray(new Point(0, 0, 0), new Vector(1, 0, 0)));
         Point p1 = new Point(5, 1, 0);

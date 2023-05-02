@@ -2,7 +2,6 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.*;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +14,7 @@ class CylinderTests {
      * Test method for {@link geometries.Cylinder#getNormal(Point)}.
      */
     @Test
-    void testgetNormal() {
+    void testGetNormal() {
         Cylinder cylinder = new Cylinder(1,
                 new Ray(new Point(0, 0, 1), new Vector(0, 0, 1)),
                 1);

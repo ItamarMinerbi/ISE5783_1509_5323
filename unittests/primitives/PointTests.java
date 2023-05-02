@@ -3,7 +3,6 @@ package primitives;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static primitives.Util.isZero;
 
 /**
  * Unit tests for primitives.Point class
@@ -14,7 +13,7 @@ class PointTests {
      * Test method for {@link primitives.Point#add(Vector)}.
      */
     @Test
-    void testadd() {
+    void testAdd() {
         Point p1 = new Point(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
 
@@ -33,7 +32,7 @@ class PointTests {
      * Test method for {@link primitives.Point#subtract(Point)}.
      */
     @Test
-    void testsubtract() {
+    void testSubtract() {
         Point p1 = new Point(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
 
@@ -55,7 +54,7 @@ class PointTests {
      * Test method for {@link primitives.Point#distanceSquared(Point)}.
      */
     @Test
-    void testdistanceSquared() {
+    void testDistanceSquared() {
         Point p1 = new Point(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
 
@@ -85,7 +84,7 @@ class PointTests {
      * Test method for {@link primitives.Point#distance(Point)}.
      */
     @Test
-    void testdistance() {
+    void testDistance() {
         Point p1 = new Point(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
 
