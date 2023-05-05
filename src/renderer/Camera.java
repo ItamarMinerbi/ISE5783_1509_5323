@@ -115,7 +115,30 @@ public class Camera {
         return this;
     }
 
+
+    /**
+
+     Constructs a ray for a given pixel in the view plane.
+     @param nX the number of pixels in the x-axis direction of the view plane
+     @param nY the number of pixels in the y-axis direction of the view plane
+     @param j the index of the pixel on the x-axis
+     @param i the index of the pixel on the y-axis
+     @return a Ray object for the given pixel
+     */
     public Ray constructRay(int nX, int nY, int j, int i) {
-        return null;
+        Point pc = p0.add(vTo.scale(distance));
+        double rY = height / nY;
+        double rX = width / nX;
+        Point pIJ = pc;
+        double jX = (j - (nX - 1d) / 2) * rX;
+        if (!Util.isZero(jX)) {
+            pIJ = pIJ.add(vRight.scale(jX));
+        }
+        double iY = -(i - (nY - 1d) / 2) * rY;
+        if (!Util.isZero(iY)) {
+            pIJ = pIJ.add(vUp.scale(iY));
+        }
+        Vector vIJ = pIJ.subtract(p0);
+        return new Ray(p0, vIJ);
     }
 }

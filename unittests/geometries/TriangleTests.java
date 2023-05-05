@@ -5,6 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -40,7 +42,8 @@ class TriangleTests {
         // ============ Equivalence Partitions Tests ==============
 
         // TC01: There is a simple single test here
-        assertEquals(new Point(0.25, 0.25, 0), tr.findIntersections(new Ray(new Point(0.25, 0.25, -1), v)).get(0),
+        assertEquals(List.of(new Point(0.25, 0.25, 0)),
+                tr.findIntersections(new Ray(new Point(0.25, 0.25, -1), v)),
                 "Bad Point to trinagle");// checks on the triangle
 
         // TC02: Test when the point is out of the triangle(against edge)

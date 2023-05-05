@@ -15,7 +15,8 @@ class CylinderTests {
      */
     @Test
     void testGetNormal() {
-        Cylinder cylinder = new Cylinder(1,
+        Cylinder cylinder = new Cylinder(
+                1,
                 new Ray(new Point(0, 0, 1), new Vector(0, 0, 1)),
                 1);
         // ============ Equivalence Partitions Tests ==============
