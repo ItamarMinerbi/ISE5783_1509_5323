@@ -4,6 +4,8 @@
  */
 package primitives;
 
+import java.util.List;
+
 public class Ray {
     final Point p0;
     final Vector dir;
@@ -39,6 +41,29 @@ public class Ray {
      */
     public Vector getDir() {
         return dir;
+    }
+
+    /**
+     * Finds the point in the given list that is closest to p0.
+     *
+     * @param points a List of points to search through
+     * @return the closest Point to p0, or null if the list is empty or null
+     */
+    public Point findClosestPoint(List<Point> points) {
+        if (points == null || points.isEmpty()) {
+            return null;
+        }
+
+        Point closestPoint = points.get(0);
+        double minDistance = closestPoint.distance(p0);
+
+        for (Point point : points) {
+            if (point.distance(p0) < minDistance) {
+                closestPoint = point;
+                minDistance = closestPoint.distance(p0);
+            }
+        }
+        return closestPoint;
     }
 
     /**
