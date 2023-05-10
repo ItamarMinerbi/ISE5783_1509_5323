@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Geometries implements Intersectable{
+public class Geometries implements Intersectable {
     private List<Intersectable> intersectables;
 
     /**
@@ -28,8 +28,8 @@ public class Geometries implements Intersectable{
         this.intersectables = new LinkedList<Intersectable>();
     }
 
-    public void add(Intersectable intersectable){
-        intersectables.add(intersectable);
+    public void add(Intersectable... intersectables) {
+        this.intersectables.addAll(Arrays.stream(intersectables).toList());
     }
 
     /**

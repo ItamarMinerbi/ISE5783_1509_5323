@@ -1,6 +1,11 @@
 package renderer;
 
 import primitives.*;
+
+import java.util.List;
+import java.util.MissingResourceException;
+import java.util.stream.IntStream;
+
 import static primitives.Util.isZero;
 
 /**
@@ -10,6 +15,9 @@ public class Camera {
     private Point p0;
     private Vector vTo, vUp, vRight;
     private double height, width, distance;
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
+
 
     /**
      * Contractor for the camera object.
@@ -115,6 +123,92 @@ public class Camera {
         return this;
     }
 
+    /**
+     *  The function sets the imageWriter of the camera.
+     *
+     * @param imageWriter - The new imageWriter
+     * @return the updated camera with the new updated values.
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+
+    /**
+     *  The function sets the rayTracer of the camera.
+     *
+     * @param rayTracer - The new rayTracer
+     * @return the updated camera with the new updated values.
+     */
+    public Camera setRayTracer(RayTracerBase rayTracer) {
+        this.rayTracer = rayTracer;
+        return this;
+    }
+
+
+    /**
+     * The function creates a ray from the camera to a pixel and finds the ray's color.
+     *
+     * @param nX number of pixels on X axis in the view plane
+     * @param nY number of pixels on Y axis in the view plane
+     * @param j X coordinate of the pixel
+     * @param i Y coordinate of the pixel
+     * @return The color of the ray from the camera to the pixel
+     */
+    private Color castRay(int nX, int nY, int j, int i) {
+        return rayTracer.traceRay(constructRay(nX, nY, j, i));
+    }
+
+    /**
+     * Renders the image pixel by pixel into the imageWriter
+     */
+    public void renderImage() {
+        if (imageWriter == null)
+            throw new MissingResourceException("Missing image writer object!", "ImageWriter", "");
+
+        if (rayTracer == null)
+            throw new MissingResourceException("Missing tracer object!", "RayTracerBase", "");
+
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                Color color = castRay(nX, nY, j, i);
+                imageWriter.writePixel(j, i, color);
+            }
+        }
+    }
+
+    /**
+     * Print a grid on the image
+     *
+     * @param interval The width & height of a grid cell in pixels
+     * @param color The color of the grid
+     */
+    public void printGrid(int interval, Color color) {
+        if (imageWriter == null)
+            throw new MissingResourceException("Missing image writer object!", "ImageWriter", "");
+
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                if (i % interval == 0 || j % interval == 0)
+                    imageWriter.writePixel(i, j, color);
+            }
+        }
+    }
+
+    /**
+     * Change the actual image file according to the imageWriter object
+     */
+    public void writeToImage() {
+        if (imageWriter == null)
+            throw new MissingResourceException("Missing image writer object!", "ImageWriter", "");
+
+        imageWriter.writeToImage();
+    }
 
     /**
 

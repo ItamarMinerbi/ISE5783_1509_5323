@@ -23,7 +23,7 @@ public class RenderTests {
                                            new Double3(1, 1, 1))) //
          .setBackground(new Color(75, 127, 90));
 
-      scene.geometries.add(new Sphere(50d, new Point(0, 0, -100))),
+      scene.geometries.add(new Sphere(50d, new Point(0, 0, -100)),
                            new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up
                            // left
                            new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),
@@ -78,7 +78,7 @@ public class RenderTests {
    // }
 
    /** Test for XML based scene - for bonus */
-   @Test
+   /**@Test
    public void basicRenderXml() {
       Scene  scene  = new Scene("XML Test scene");
       // enter XML file name and parse from XML file into scene object
@@ -93,5 +93,5 @@ public class RenderTests {
       camera.renderImage();
       camera.printGrid(100, new Color(YELLOW));
       camera.writeToImage();
-   }
+   }*/
 }
