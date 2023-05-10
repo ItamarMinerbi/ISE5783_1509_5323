@@ -5,6 +5,9 @@
 package primitives;
 
 public class Point {
+
+    public static final Point ZERO = new Point(0,0,0);
+
     final Double3 xyz;
 
     public double getX(){return xyz.d1;}
