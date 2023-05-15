@@ -4,7 +4,7 @@ package geometries;
  * The RadialGeometry class is an abstract class that represents a geometry with a radius.
  * It implements the Geometry interface.
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     protected final double radius;
 
     /**

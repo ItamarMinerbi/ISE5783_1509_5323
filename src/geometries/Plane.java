@@ -11,7 +11,7 @@ import static primitives.Util.isZero;
  * The Plane class represents a plane in a 3-dimensional space.
  * A plane is defined by a point (p0) and a normal vector.
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     final Point p0;
     final Vector normal;
 
@@ -75,14 +75,8 @@ public class Plane implements Geometry {
     }
 
 
-    /**
-
-     Finds the intersection points between the plane and a given ray.
-     @param ray the ray to intersect with the plane.
-     @return a list of intersection points, or null if there are no intersections.
-     */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         Vector rayDir = ray.getDir();
         Point rayP0 = ray.getP0();
         Vector v;
@@ -102,8 +96,7 @@ public class Plane implements Geometry {
             // Return null if the intersection is behind the ray origin or at the origin
             return null;
         }
-        Point intersectionPoint = ray.getPoint(t);
+        GeoPoint intersectionPoint = new GeoPoint(this, ray.getPoint(t));
         return List.of(intersectionPoint);
     }
-
 }

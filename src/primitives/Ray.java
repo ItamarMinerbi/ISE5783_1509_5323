@@ -4,7 +4,10 @@
  */
 package primitives;
 
+import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
+
 
 public class Ray {
     final Point p0;
@@ -50,21 +53,10 @@ public class Ray {
      * @return the closest Point to p0, or null if the list is empty or null
      */
     public Point findClosestPoint(List<Point> points) {
-        if (points == null || points.isEmpty()) {
-            return null;
-        }
-
-        Point closestPoint = points.get(0);
-        double minDistance = closestPoint.distance(p0);
-
-        for (Point point : points) {
-            if (point.distance(p0) < minDistance) {
-                closestPoint = point;
-                minDistance = closestPoint.distance(p0);
-            }
-        }
-        return closestPoint;
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
+
 
     /**
      * Checks if this Ray object is equal to another object.
@@ -90,5 +82,28 @@ public class Ray {
     @Override
     public String toString() {
         return "[" + p0 + ", " + dir + "]";
+    }
+
+    /**
+     * Finds the GeoPoint in the given list that is closest to p0.
+     *
+     * @param geoPoints a List of GeoPoints to search through
+     * @return the closest GeoPoint to p0, or null if the list is empty or null
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> geoPoints) {
+        if (geoPoints == null || geoPoints.isEmpty()) {
+            return null;
+        }
+
+        GeoPoint closestGeoPoint = geoPoints.get(0);
+        double minDistance = closestGeoPoint.point.distance(p0);
+
+        for (GeoPoint geoPoint : geoPoints) {
+            if (geoPoint.point.distance(p0) < minDistance) {
+                closestGeoPoint = geoPoint;
+                minDistance = closestGeoPoint.point.distance(p0);
+            }
+        }
+        return closestGeoPoint;
     }
 }

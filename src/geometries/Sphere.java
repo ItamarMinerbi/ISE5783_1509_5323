@@ -46,15 +46,9 @@ public class Sphere extends RadialGeometry {
     }
 
 
-    /**
 
-     Computes the intersection points of a given ray with the sphere.
-     @param ray The ray to compute the intersection with.
-     @return A list of intersection points between the ray and the sphere,
-     or null if there are no intersection points.
-     */
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         try {
             Vector vector = ray.getP0().subtract(center);
             double a = ray.getDir().dotProduct(ray.getDir());
@@ -76,19 +70,19 @@ public class Sphere extends RadialGeometry {
                 if(t2<0){
                     return null;
                 }else {
-                    return List.of(ray.getPoint(t2));
+                    return List.of(new GeoPoint(this, ray.getPoint(t2)));
                 }
             }else if(isZero(t1)){
-                    if(t2<0){
-                        return null;
-                    }else {
-                        return List.of(ray.getPoint(t2));
-                    }
+                if(t2<0){
+                    return null;
+                }else {
+                    return List.of(new GeoPoint(this, ray.getPoint(t2)));
+                }
             }else{
                 if(t2>0){
-                    return List.of(ray.getPoint(t1),ray.getPoint(t2));
+                    return List.of(new GeoPoint(this, ray.getPoint(t1)),new GeoPoint(this, ray.getPoint(t2)));
                 }else {
-                    return List.of(ray.getPoint(t1));
+                    return List.of(new GeoPoint(this, ray.getPoint(t1)));
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -97,12 +91,10 @@ public class Sphere extends RadialGeometry {
             double t1 = alignZero(-c / a);
 
             if (t1 > 0) {
-                return List.of(ray.getPoint(t1)); // return the intersection point with real direction
+                return List.of(new GeoPoint(this, ray.getPoint(t1))); // return the intersection point with real direction
             } else {
                 return null; // no intersection points with real direction
             }
         }
     }
-
-
 }

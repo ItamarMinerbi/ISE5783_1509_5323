@@ -25,47 +25,41 @@ public class Triangle extends Polygon {
     }
 
 
-    /**
-     * Computes the intersection points of the given ray with the current triangle
-     *
-     * @param ray the ray that intersects the triangle
-     * @return a list of intersection points, or null if no intersection exists
-     */
-   @Override
-   public List<Point> findIntersections(Ray ray) {
-       Point vertex1 = vertices.get(0);
-       Point vertex2 = vertices.get(1);
-       Point vertex3 = vertices.get(2);
 
-       List<Point> intersections = plane.findIntersections(ray);
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        Point vertex1 = vertices.get(0);
+        Point vertex2 = vertices.get(1);
+        Point vertex3 = vertices.get(2);
 
-       if (intersections == null) {
-           return null;
-       }
+        List<GeoPoint> intersections = plane.findGeoIntersectionsHelper(ray);
 
-       Point rayOrigin = ray.getP0();
-       Vector rayDirection = ray.getDir();
+        if (intersections == null) {
+            return null;
+        }
 
-       Vector edge1 = (vertex1.subtract(rayOrigin));
-       Vector edge2 = (vertex2.subtract(rayOrigin));
-       Vector edge3 = (vertex3.subtract(rayOrigin));
+        Point rayOrigin = ray.getP0();
+        Vector rayDirection = ray.getDir();
 
-       double normal1 = alignZero(rayDirection.dotProduct((edge1.crossProduct(edge2)).normalize()));
-       if (isZero(normal1)) {
-           return null;
-       }
+        Vector edge1 = (vertex1.subtract(rayOrigin));
+        Vector edge2 = (vertex2.subtract(rayOrigin));
+        Vector edge3 = (vertex3.subtract(rayOrigin));
 
-       double normal2 = alignZero(rayDirection.dotProduct((edge2.crossProduct(edge3)).normalize()));
-       if (normal1 * normal2 <= 0) {
-           return null;
-       }
+        double normal1 = alignZero(rayDirection.dotProduct((edge1.crossProduct(edge2)).normalize()));
+        if (isZero(normal1)) {
+            return null;
+        }
 
-       double normal3 = alignZero(rayDirection.dotProduct((edge3.crossProduct(edge1)).normalize()));
-       if (normal1 * normal3 <= 0) {
-           return null;
-       }
+        double normal2 = alignZero(rayDirection.dotProduct((edge2.crossProduct(edge3)).normalize()));
+        if (normal1 * normal2 <= 0) {
+            return null;
+        }
 
-       return List.of(intersections.get(0));
-   }
+        double normal3 = alignZero(rayDirection.dotProduct((edge3.crossProduct(edge1)).normalize()));
+        if (normal1 * normal3 <= 0) {
+            return null;
+        }
 
+        return List.of(new GeoPoint(this, intersections.get(0).point));
+    }
 }
