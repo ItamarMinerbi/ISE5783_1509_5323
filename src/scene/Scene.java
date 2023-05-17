@@ -4,6 +4,8 @@ import geometries.*;
 import primitives.*;
 import lighting.*;
 
+import java.util.*;
+
 /**
  * The Scene class represents a 3D scene consisting of a collection of geometries,
  * an ambient light source, and a background color.
@@ -28,6 +30,11 @@ public class Scene {
      * The collection of geometries that make up the scene.
      */
     public Geometries geometries = new Geometries();
+
+    /**
+     * The collection of lights in the scene
+     */
+    public List<LightSource> lights = new LinkedList<>();
 
     /**
      * Constructs an instance of the Scene class with the specified name.
@@ -68,6 +75,17 @@ public class Scene {
      */
     public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
+        return this;
+    }
+
+    /**
+     * Sets the collection of lights in the scene.
+     *
+     * @param lights the new collection of lights that in the scene
+     * @return the instance of the Scene class with the updated collection of lights
+     */
+    public Scene setLights(List<LightSource> lights) {
+        this.lights = lights;
         return this;
     }
 }
