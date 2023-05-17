@@ -162,7 +162,7 @@ public class Camera {
     /**
      * Renders the image pixel by pixel into the imageWriter
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (imageWriter == null)
             throw new MissingResourceException("Missing image writer object!", "ImageWriter", "");
 
@@ -178,6 +178,7 @@ public class Camera {
                 imageWriter.writePixel(j, i, color);
             }
         }
+        return this;
     }
 
     /**
