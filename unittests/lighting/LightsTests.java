@@ -13,6 +13,7 @@ import scene.Scene;
 /** Test rendering a basic image
  * @author Dan */
 public class LightsTests {
+   private Scene scene_3 = new Scene("Test scene");
    private final Scene          scene1                  = new Scene("Test scene");
    private final Scene          scene2                  = new Scene("Test scene")
       .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
@@ -171,6 +172,56 @@ public class LightsTests {
          .setRayTracer(new RayTracerBasic(scene2)) //
          .renderImage() //
          .writeToImage(); //
+   }
+
+   /**
+    * Produce a picture of a sphere lighted by multiple light sources
+    */
+   @Test
+   void SphereMultiple() {
+      scene1.geometries.add(sphere);
+      scene1.lights.add(new DirectionalLight(new Color(255, 128, 0), new Vector(-1, 0, -2)));
+      scene1.lights
+              .add(new PointLight(new Color(204, 0, 0), new Point(20, 30, 10)).setKl(0.0000001).setKq(0.0000001));
+      scene1.lights.add(new SpotLight(new Color(0, 900, 0), new Point(-80, -30, 50), new Vector(1, -2, -3))
+              .setKl(0.0000000001).setKq(0.000000001));
+
+      ImageWriter imageWriter = new ImageWriter("lightSphereMultiple", 500, 500);
+      camera1.setImageWriter(imageWriter) //
+              .setRayTracer(new RayTracerBasic(scene1)) //
+              .renderImage() //
+              .writeToImage(); //
+   }
+
+   /**
+    * Produce a picture of a two triangles and two spheres lighted by several
+    * lights
+    */
+   @Test
+   public void MultyObjTransRef4() {
+      Camera camera = new Camera(new Point(0, 0, 1000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
+              .setVPSize(200, 200).setVPDistance(1000); //
+
+      scene_3.setAmbientLight(new AmbientLight(new Color(255, 255, 255), new Double3(0.1)));
+
+      scene_3.geometries.add( //
+              new Sphere(40, new Point(0, 0, -100)) //
+                      .setEmission(new Color(0, 0, 100)) //
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20).setKs(0.7)),
+              new Sphere(20, new Point(0, 0, -100)) //
+                      .setEmission(new Color(100, 20, 20)) //
+                      .setMaterial(new Material().setKd(0.25).setKs(0.25).setShininess(20)),
+              triangle1.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(300)),
+              triangle2.setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(300)));
+
+      scene_3.lights.add(new SpotLight(new Color(700, 400, 400), new Point(60, 50, 0), new Vector(0, 0, -1)) //
+              .setKl(4E-5).setKq(2E-7));
+
+      ImageWriter imageWriter = new ImageWriter("multyObjTransRef4", 500, 500);
+      camera.setImageWriter(imageWriter) //
+              .setRayTracer(new RayTracerBasic(scene_3)) //
+              .renderImage() //
+              .writeToImage(); //
    }
 
 }
