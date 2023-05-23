@@ -156,7 +156,8 @@ public class Camera {
      * @return The color of the ray from the camera to the pixel
      */
     private Color castRay(int nX, int nY, int j, int i) {
-        return rayTracer.traceRay(constructRay(nX, nY, j, i));
+        Ray ray = constructRay(nX, nY, j, i);
+        return rayTracer.traceRay(ray);
     }
 
     /**
