@@ -13,6 +13,11 @@ import static primitives.Util.*;
 public class RayTracerBasic extends RayTracerBase {
 
     /**
+     * The value of DELTA represents the small offset used for ray intersection calculations.
+     */
+    private static final double DELTA = 0.1;
+
+    /**
      * Constructs a new RayTracerBasic object with the specified scene.
      *
      * @param scene the scene to be rendered by the ray tracer
@@ -33,6 +38,32 @@ public class RayTracerBasic extends RayTracerBase {
                 .add(calcLocalEffects(geoPoint, ray));
     }
 
+    /**
+     * Checks if a given point on a geometry is unshaded by a specific light source.
+     *
+     * @param light the light source to check
+     * @param l the vector representing the direction from the light source to the point
+     * @param n the normal vector at the point on the geometry
+     * @param geoPoint the geometric point on the surface of the geometry
+     * @return {@code true} if the point is unshaded by the light source, {@code false} otherwise
+     */
+    private boolean unshaded(LightSource light, Vector l, Vector n, GeoPoint geoPoint) {
+        Vector lightDirection = l.scale(-1);
+        Vector deltaVector = n.scale(Util.alignZero(n.dotProduct(lightDirection)) > 0
+                ? DELTA : -DELTA);
+        Point startPoint = geoPoint.point.add(deltaVector);
+        Ray lightRay = new Ray(startPoint, lightDirection);
+
+        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+        if (intersections != null && !intersections.isEmpty()) {
+            for(GeoPoint intersection : intersections)
+                if (intersection.point.distance(geoPoint.point) < light.getDistance(geoPoint.point))
+                    return false;
+        }
+
+        return true;
+    }
+
     private Color calcLocalEffects(GeoPoint geoPoint, Ray ray) {
         Color color = Color.BLACK;
         Vector v = ray.getDir();
@@ -50,9 +81,11 @@ public class RayTracerBasic extends RayTracerBase {
             Vector l = lightSource.getL(geoPoint.point);
             double nl = alignZero(n.dotProduct(l));
             if (nl * nv > 0) { // sign(nl) == sing(nv)
-                Color lightIntensity = lightSource.getIntensity(geoPoint.point);
-                color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                if(unshaded(lightSource, l, n, geoPoint)) {
+                    Color lightIntensity = lightSource.getIntensity(geoPoint.point);
+                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                            calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                }
             }
         }
         return color;
