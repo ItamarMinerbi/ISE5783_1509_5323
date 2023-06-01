@@ -10,6 +10,11 @@ import java.util.List;
 
 
 public class Ray {
+    /**
+     * The value of DELTA represents the small offset used for ray intersection calculations.
+     */
+    private static final double DELTA = 0.1;
+
     final Point p0;
     final Vector dir;
 
@@ -25,6 +30,20 @@ public class Ray {
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
         this.dir = dir.normalize();
+    }
+
+    /**
+     * Ray constructor to create a vector with a delta difference, to ensure they
+     * don't intersect the point's geometry itself again and again.
+     *
+     * @param head      The head of the ray (before adding delta)
+     * @param direction The direction of the ray
+     * @param normal    The normal vector to the geometry
+     */
+    public Ray(Point head, Vector direction, Vector normal) {
+        Vector delta = normal.scale(normal.dotProduct(direction) > 0 ? DELTA : -DELTA);
+        this.p0 = head.add(delta);
+        this.dir = direction;
     }
 
     /**
