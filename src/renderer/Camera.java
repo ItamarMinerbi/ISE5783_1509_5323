@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.MissingResourceException;
 import static primitives.Util.*;
-import java.util.stream.IntStream;
 
 import static primitives.Util.isZero;
 
@@ -193,7 +192,7 @@ public class Camera {
 
         for (int i = 0; i < nY; i++) {
             for (int j = 0; j < nX; j++) {
-                Color color = calAveragePixelColor(nX, nY, j, i);
+                Color color = calcAveragePixelColor(nX, nY, j, i);
                 imageWriter.writePixel(j, i, color);
             }
         }
@@ -305,7 +304,7 @@ public class Camera {
      * @param i The x-coordinate of the current pixel.
      * @return The average Color calculated from the traced rays.
      */
-    private Color calAveragePixelColor(int nX, int nY, int j, int i) {
+    private Color calcAveragePixelColor(int nX, int nY, int j, int i) {
         List<Ray> rays = constructRays(nX, nY, j, i);
         Color color = Color.BLACK;
         for (Ray ray : rays)
