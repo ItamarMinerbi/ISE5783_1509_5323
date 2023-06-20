@@ -273,8 +273,8 @@ public class Camera {
             return List.of(constructRay(nX, nY, j, i));
 
         // Choosing the biggest scalar to scale the vectors.
-        double rY = height / (2 * nY * aliasRays * distance),
-               rX = width / (2 * nX * aliasRays * distance);
+        double rY = height / (2 * nY * aliasRays * 0.05 * distance),
+               rX = width / (2 * nX * aliasRays * 0.05 * distance);
 
         List<Ray> rays = new LinkedList<>();
         // Constructing (rays * rays) rays in random directions.

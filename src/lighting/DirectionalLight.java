@@ -1,6 +1,7 @@
 package lighting;
 
 import primitives.*;
+import java.util.List;
 
 public class DirectionalLight extends Light implements LightSource {
 
@@ -38,6 +39,16 @@ public class DirectionalLight extends Light implements LightSource {
     @Override
     public Vector getL(Point p) {
         return direction;
+    }
+
+    /**
+     * Gets vectors from the given point to the light source
+     *
+     * @param p the point
+     * @return all vectors who created
+     */
+    public List<Vector> getLBeam(Point p) {
+        return List.of(getL(p));
     }
 
     /**

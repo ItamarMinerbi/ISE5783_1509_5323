@@ -7,6 +7,7 @@ import scene.Scene;
 import java.util.List;
 import geometries.Intersectable.GeoPoint;
 import static primitives.Util.*;
+import static lighting.PointLight.softShadowsRays;
 
 /**
  * A basic implementation of a ray tracer that extends the abstract RayTracerBase class.
@@ -19,6 +20,13 @@ public class RayTracerBasic extends RayTracerBase {
 
     private static final double MIN_CALC_COLOR_K = 0.001;
 
+    private boolean useSoftShadow = false;
+
+    public RayTracerBasic setUseSoftShadow(boolean useSoftShadow) {
+        this.useSoftShadow = useSoftShadow;
+        return this;
+    }
+
     /**
      * Constructs a new RayTracerBasic object with the specified scene.
      *
@@ -28,6 +36,7 @@ public class RayTracerBasic extends RayTracerBase {
         super(scene);
     }
 
+    //region Calculate Color
     /**
      * Calculates the color at a specific point.
      *
@@ -55,8 +64,9 @@ public class RayTracerBasic extends RayTracerBase {
         return level == 1 ? color
                 : color.add(calcGlobalEffects(intersection, ray, level, k));
     }
+    //endregion
 
-
+    //region Calculate Effects Methods
     private Color calcLocalEffects(GeoPoint geoPoint, Ray ray, Double3 k) {
         Color color = Color.BLACK;
         Vector v = ray.getDir();
@@ -71,17 +81,24 @@ public class RayTracerBasic extends RayTracerBase {
             return color;
 
         for (LightSource lightSource : scene.lights) {
-            Vector l = lightSource.getL(geoPoint.point);
-            double nl = n.dotProduct(l);
-            if (nl * nv > 0) { // sign(nl) == sing(nv)
-                Double3 ktr = transparency(geoPoint, lightSource, l, n);
-                if(!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
-                    Color lightIntensity = lightSource.getIntensity(geoPoint.point)
-                            .scale(ktr);
-                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                            calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            List<Vector> vectors = (!useSoftShadow) ? List.of(lightSource.getL(geoPoint.point))
+                    : lightSource.getLBeam(geoPoint.point);
+
+            Color tempColor = Color.BLACK;
+            for(Vector l : vectors) {
+                double nl = n.dotProduct(l);
+                if (nl * nv > 0) { // sign(nl) == sing(nv)
+                    Double3 ktr = transparency(geoPoint, lightSource, l, n);
+                    if(!ktr.product(k).lowerThan(MIN_CALC_COLOR_K)) {
+                        Color lightIntensity = lightSource.getIntensity(geoPoint.point)
+                                .scale(ktr);
+
+                        tempColor = tempColor.add(calcDiffusive(kd, l, n, lightIntensity),
+                                calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                    }
                 }
             }
+            color = color.add((!useSoftShadow) ? tempColor : tempColor.reduce(softShadowsRays));
         }
         return color;
     }
@@ -188,8 +205,9 @@ public class RayTracerBasic extends RayTracerBase {
         return alignZero(minusVR) <= 0 ? Color.BLACK //
                 : lightIntensity.scale(kS.scale(Math.pow(minusVR, nShininess)));
     }
+    //endregion
 
-
+    //region Construct rays
     /**
      * The function calculates the reflected ray.
      *
@@ -214,6 +232,7 @@ public class RayTracerBasic extends RayTracerBase {
     private Ray constructRefractedRay(Point p, Vector v, Vector n) {
         return new Ray(p, v, n);
     }
+    //endregion
 
 
     /**
@@ -226,7 +245,6 @@ public class RayTracerBasic extends RayTracerBase {
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
         return intersections == null ? null : ray.findClosestGeoPoint(intersections);
     }
-
 
     /**
      * Calculates the color for a given ray in the scene. For now, this method returns null.

@@ -2,6 +2,8 @@ package lighting;
 
 import primitives.*;
 
+import java.util.List;
+
 /**
  * The LightSource interface represents a light source in our lighting package.
  */
@@ -21,6 +23,14 @@ public interface LightSource {
      * @return The direction from the light source to the specified point as a Vector.
      */
     public Vector getL(Point p);
+
+    /**
+     * Gets vectors from the given point to the light source
+     *
+     * @param p the point
+     * @return all vectors who created
+     */
+    public List<Vector> getLBeam(Point p);
 
     /**
      * Retrieves the distance between the light source and a given point.
