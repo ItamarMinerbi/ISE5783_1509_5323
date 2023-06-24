@@ -3,6 +3,7 @@ package geometries;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.*;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +37,7 @@ class TubeTests {
                 "ERROR: Tube.getNormal() returns wrong normal for vertical point");
     }
 
-    /*@Test
+    @Test
     void testFindIntersections() {
         Vector v1 = new Vector(1, 0, 0);
         Point p1 = new Point(-0.8660254037844382, 0.5, 3.1339745962155616);
@@ -171,7 +172,7 @@ class TubeTests {
         // Wrong amount
         assertEquals(1, intersections.size(), "Should give only one point");
         // Wrong point
-        assertEquals(*//* p1? *//*new Point(0.8660254037844382, 0.5, 3.1339745962155616), intersections.get(0),
+        assertEquals(/* p1? */new Point(0.8660254037844382, 0.5, 3.1339745962155616), intersections.get(0),
                 "Wrong point");
 
         // TC34: The ray starts on the tube but doesn't crosses it (0 intersection
@@ -340,5 +341,5 @@ class TubeTests {
         if (intersections.get(0).getX() > intersections.get(1).getX())
             intersections = List.of(intersections.get(1), intersections.get(0));
         assertEquals(List.of(new Point(-1, 0, 0), new Point(1, 0, 2)), intersections, "Wrong point");
-    }*/
+    }
 }
