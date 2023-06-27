@@ -98,7 +98,9 @@ public class RayTracerBasic extends RayTracerBase {
                     }
                 }
             }
-            color = color.add((!useSoftShadow) ? tempColor : tempColor.reduce(softShadowsRays));
+            int reduceBy = vectors.size();
+            color = color.add((!useSoftShadow) ? tempColor :
+                    tempColor.reduce(reduceBy > 0 ? reduceBy : 1));
         }
         return color;
     }

@@ -2,9 +2,16 @@ package renderer;
 
 import primitives.*;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.MissingResourceException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.IntStream;
+
 import static primitives.Util.*;
 
 import static primitives.Util.isZero;
@@ -18,8 +25,10 @@ public class Camera {
     private double height, width, distance;
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
-    private int aliasRays = 9;       // cast 81 rays in real
     private boolean useAntiAliasing = false;
+    private int aliasRays = 9;       // cast 81 rays in real
+    private boolean threadedRendering = false;
+    private PixelManager pixelManager;
 
 
     /**
@@ -174,6 +183,17 @@ public class Camera {
         this.useAntiAliasing = useAntiAliasing;
         return this;
     }
+
+    /**
+     *  The function sets the enabling option for the threaded rendering of the camera.
+     *
+     * @param threadedRendering - The new use threaded rendering value
+     * @return the updated camera with the new updated values.
+     */
+    public Camera setUseThreadedRendering(boolean threadedRendering) {
+        this.threadedRendering = threadedRendering;
+        return this;
+    }
     //endregion
 
     //region Rendering methods
@@ -190,10 +210,24 @@ public class Camera {
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
 
-        for (int i = 0; i < nY; i++) {
-            for (int j = 0; j < nX; j++) {
-                Color color = calcAveragePixelColor(nX, nY, j, i);
-                imageWriter.writePixel(j, i, color);
+        pixelManager = new PixelManager(nY, nX, 100);
+        BiConsumer<Integer, Integer> writePixel = (j, i) -> {
+            Color color = calcAveragePixelColor(nX, nY, j, i);
+            imageWriter.writePixel(j, i, color);
+            pixelManager.pixelDone();
+        };
+
+        if (threadedRendering) {
+            IntStream.range(0, nY).parallel().forEach(i ->
+                IntStream.range(0, nX).parallel().forEach(j -> {
+                    writePixel.accept(j, i);
+                }));
+        }
+        else {
+            for (int i = 0; i < nY; i++) {
+                for (int j = 0; j < nX; j++) {
+                    writePixel.accept(j, i);
+                }
             }
         }
         return this;
