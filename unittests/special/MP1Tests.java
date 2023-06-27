@@ -140,12 +140,6 @@ public class MP1Tests {
         return lampComponents;
     }
 
-    @Test
-    public void test() {
-        while(true)
-            System.out.printf("%5.1f%%", Math.PI);
-    }
-
     Scene createViewScene(boolean day) {
         // sky
         Color skyDay = new Color(0, 210, 215);
